@@ -1,7 +1,6 @@
 {
   "name": "refineddigital/blog",
   "description": "Blog for RefinedCMS",
-  "type": "library",
   "require": {
     "refineddigital/cms": "dev-master"
   },
