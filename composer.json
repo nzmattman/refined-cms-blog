@@ -2,15 +2,6 @@
   "name": "refineddigital/blog",
   "description": "Blog for RefinedCMS",
   "type": "library",
-  "repositories": [
-      {
-          "type": "path",
-          "url": "../cms",
-          "options": {
-              "symlink": true
-          }
-      }
-  ],
   "require": {
     "refineddigital/cms": "dev-master"
   },
@@ -28,9 +19,6 @@
     "files": [
         "src/Module/Helpers/helpers.php"
     ]
-  },
-  "config": {
-    "sort-packages": true
   },
   "extra": {
     "laravel": {
