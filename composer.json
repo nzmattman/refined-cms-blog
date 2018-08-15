@@ -1,5 +1,5 @@
 {
-  "name": "refineddigital/blog",
+  "name": "refineddigital/cms-blog",
   "description": "Blog for RefinedCMS",
   "require": {
     "php": "^7.1.3",
