@@ -54,6 +54,13 @@ class BlogController extends CoreController
         // get the instance
         $data = $this->model::findOrFail($item);
 
+        // todo: make this more dynamic
+        if (isset($data->data) && is_object($data->data)) {
+            foreach ($data->data as $key => $value) {
+                $data->{'data__'.$key} = $value;
+            }
+        }
+
         return parent::edit($data);
     }
 

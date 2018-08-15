@@ -23,9 +23,11 @@ class BlogServiceProvider extends ServiceProvider
         ]);
 
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                Install::class,
-            ]);
+            if (!\Schema::hasTable('blogs')) {
+                $this->commands([
+                    Install::class,
+                ]);
+            }
         }
 
         $this->publishes([

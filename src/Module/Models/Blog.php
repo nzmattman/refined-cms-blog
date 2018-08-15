@@ -2,6 +2,7 @@
 
 namespace RefinedDigital\Blog\Module\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RefinedDigital\CMS\Modules\Core\Models\CoreModel;
 use RefinedDigital\CMS\Modules\Pages\Traits\IsPage;
@@ -16,12 +17,16 @@ class Blog extends CoreModel
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
 
     protected $fillable = [
-        'published_at', 'active', 'position', 'name', 'image', 'content',
+        'published_at', 'active', 'position', 'name', 'image', 'content', 'data'
     ];
 
     protected $appends = [ 'excerpt' ];
 
     protected $hidden = [ 'taggables' ];
+
+    protected $casts = [
+        'data' => 'object'
+    ];
 
     /**
      * The fields to be displayed for creating / editing
@@ -86,4 +91,11 @@ class Blog extends CoreModel
         return $excerpt;
 
     }
+
+
+	public function scopePublished($query)
+	{
+	    $now = Carbon::now()->setTimezone(config('blog.timezone'));
+	    $query->where('published_at', '<=', $now);
+	}
 }

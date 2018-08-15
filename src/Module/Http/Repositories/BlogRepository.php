@@ -17,6 +17,7 @@ class BlogRepository extends CoreRepository
     {
         $data = $this->model::with(['meta', 'meta.template'])
             ->whereActive(1)
+            ->published()
             ->search(['name','content'])
             ->orderBy('published_at', 'desc')
             ->paging(5);
@@ -28,6 +29,7 @@ class BlogRepository extends CoreRepository
     {
         return $this->model::allWithTags([$tag], $type)
             ->whereActive(1)
+            ->published()
             ->search(['name','content'])
             ->orderBy('published_at', 'desc')
             ->paging(5);
@@ -38,6 +40,7 @@ class BlogRepository extends CoreRepository
     {
         return $this->model::with(['meta', 'meta.template'])
             ->whereActive(1)
+            ->published()
             ->orderBy('published_at', 'desc')
             ->limit($limit)
             ->get();

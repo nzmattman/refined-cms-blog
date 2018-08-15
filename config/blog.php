@@ -9,5 +9,7 @@ return [
         ]
     ],
 
-    'details_template_id' => '__ID__'
+    'details_template_id' => '__ID__',
+
+    'timezone' => 'UTC'
 ];
