@@ -1,7 +1,7 @@
 {
   "name": "refineddigital/blog",
   "description": "Blog for RefinedCMS",
-  "type": "project",
+  "type": "library",
   "repositories": [
       {
           "type": "path",
