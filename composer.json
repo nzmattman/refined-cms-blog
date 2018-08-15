@@ -1,6 +1,12 @@
 {
   "name": "refineddigital/blog",
   "description": "Blog for RefinedCMS",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@gitlab.com:refined-cms/core.git"
+    },
+  ],
   "require": {
     "refineddigital/cms": "dev-master"
   },
@@ -18,6 +24,11 @@
     "files": [
         "src/Module/Helpers/helpers.php"
     ]
+  },
+  "config": {
+    "gitlab-token" : {
+      "gitlab.com": "jVzmR3-F3p2y2rg5tyJT"
+    }
   },
   "extra": {
     "laravel": {
