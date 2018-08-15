@@ -5,7 +5,7 @@
     {
       "type": "git",
       "url": "git@gitlab.com:refined-cms/core.git"
-    },
+    }
   ],
   "require": {
     "refineddigital/cms": "dev-master"
