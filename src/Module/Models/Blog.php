@@ -5,12 +5,13 @@ namespace RefinedDigital\Blog\Module\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RefinedDigital\CMS\Modules\Core\Models\CoreModel;
+use RefinedDigital\CMS\Modules\Core\Traits\IsArticle;
 use RefinedDigital\CMS\Modules\Pages\Traits\IsPage;
 use RefinedDigital\CMS\Modules\Tags\Traits\Taggable;
 
 class Blog extends CoreModel
 {
-    use SoftDeletes, IsPage, Taggable;
+    use SoftDeletes, IsPage, Taggable, IsArticle;
 
     protected $order = [ 'column' => 'published_at', 'direction' => 'desc'];
 

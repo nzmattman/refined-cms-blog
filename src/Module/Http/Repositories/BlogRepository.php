@@ -48,11 +48,11 @@ class BlogRepository extends CoreRepository
 
     public function getTags()
     {
-        return $this->getTagCollection('tags');
+        return $this->getTagCollection('tags', $this->model);
     }
 
     public function getCategories()
     {
-        return $this->getTagCollection('categories');
+        return $this->getTagCollection('categories', $this->model);
     }
 }
