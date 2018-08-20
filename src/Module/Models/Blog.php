@@ -54,7 +54,7 @@ class Blog extends CoreModel
                             ],
                             [
                                 [ 'label' => 'Content', 'name' => 'content', 'required' => true, 'type' => 'richtext' ],
-                            ]
+                            ],
                         ]
                     ]
                 ],

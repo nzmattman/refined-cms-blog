@@ -23,7 +23,7 @@ class BlogServiceProvider extends ServiceProvider
         ]);
 
         if ($this->app->runningInConsole()) {
-            if (!\Schema::hasTable('blogs')) {
+            if (\DB::connection()->getDatabaseName() && !\Schema::hasTable('blogs')) {
                 $this->commands([
                     Install::class,
                 ]);
