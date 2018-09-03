@@ -47,9 +47,6 @@ class Blog extends CoreModel
                                 [ 'label' => 'Date', 'name' => 'published_at', 'required' => true, 'type' => 'datetime' ],
                             ],
                             [
-                                [ 'label' => 'Image', 'name' => 'image', 'required' => true, 'type' => 'image' ],
-                            ],
-                            [
                                 [ 'label' => 'Heading', 'name' => 'name', 'required' => true, 'attrs' => ['v-model' => 'content.name', '@keyup' => 'updateSlug' ] ],
                             ],
                             [
@@ -73,6 +70,14 @@ class Blog extends CoreModel
                             [
                                 [ 'label' => 'Categories', 'name' => 'categories', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'categories'],
                             ]
+                        ]
+                    ],
+                    [
+                        'name' => 'Image',
+                        'fields' => [
+                            [
+                                [ 'label' => 'Image', 'name' => 'image', 'required' => true, 'hideLabel' => true, 'type' => 'image' ],
+                            ],
                         ]
                     ],
                 ]
