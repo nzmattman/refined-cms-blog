@@ -19,7 +19,7 @@ class BlogServiceProvider extends ServiceProvider
     {
         view()->addNamespace('blog', [
             __DIR__.'/../Resources/views',
-            app_path().'/views'
+            base_path().'/resources/views'
         ]);
 
         if ($this->app->runningInConsole()) {
@@ -49,7 +49,7 @@ class BlogServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../../config/blog.php', 'blog');
 
         $menuConfig = [
-            'order' => 2,
+            'order' => 200,
             'name' => 'Blog',
             'icon' => 'fas fa-comment',
             'route' => 'blog',

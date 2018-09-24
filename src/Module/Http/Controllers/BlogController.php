@@ -2,6 +2,7 @@
 
 namespace RefinedDigital\Blog\Module\Http\Controllers;
 
+use Illuminate\Http\Request;
 use RefinedDigital\CMS\Modules\Core\Http\Controllers\CoreController;
 use RefinedDigital\Blog\Module\Http\Requests\BlogRequest;
 use RefinedDigital\Blog\Module\Http\Repositories\BlogRepository;
@@ -96,6 +97,17 @@ class BlogController extends CoreController
         $tags = $this->blogRepository->getAllTags();
 
         return response()->json($tags);
+    }
+
+
+    public function getForFront(Request $request)
+    {
+        if ($request->has('tag')) {
+            $data = $this->blogRepository->getForFrontWithTags($request->input('tag.name'), $request->input('tag.type'), $request->get('perPage'));
+        } else {
+            $data = $this->blogRepository->getForFront($request->get('perPage'));
+        }
+        return parent::formatGetForFront($data, $request);
     }
 
 }

@@ -37,49 +37,53 @@ class Blog extends CoreModel
     public $formFields = [
         [
             'name' => 'Content',
-            'blocks' => [
+            'sections' => [
                 'left' => [
-                    [
-                        'name' => 'Content',
-                        'fields' => [
-                            [
-                                [ 'label' => 'Active', 'name' => 'active', 'required' => true, 'type' => 'select', 'options' => [1 => 'Yes', 0 => 'No'] ],
-                                [ 'label' => 'Date', 'name' => 'published_at', 'required' => true, 'type' => 'datetime' ],
-                            ],
-                            [
-                                [ 'label' => 'Heading', 'name' => 'name', 'required' => true, 'attrs' => ['v-model' => 'content.name', '@keyup' => 'updateSlug' ] ],
-                            ],
-                            [
-                                [ 'label' => 'Content', 'name' => 'content', 'required' => true, 'type' => 'richtext' ],
-                            ],
+                    'blocks' => [
+                        [
+                            'name' => 'Content',
+                            'fields' => [
+                                [
+                                    [ 'label' => 'Active', 'name' => 'active', 'required' => true, 'type' => 'select', 'options' => [1 => 'Yes', 0 => 'No'] ],
+                                    [ 'label' => 'Date', 'name' => 'published_at', 'required' => true, 'type' => 'datetime' ],
+                                ],
+                                [
+                                    [ 'label' => 'Heading', 'name' => 'name', 'required' => true, 'attrs' => ['v-model' => 'content.name', '@keyup' => 'updateSlug' ] ],
+                                ],
+                                [
+                                    [ 'label' => 'Content', 'name' => 'content', 'required' => true, 'type' => 'richtext' ],
+                                ],
+                            ]
                         ]
                     ]
                 ],
                 'right' => [
-                    [
-                        'name' => 'Tags',
-                        'fields' => [
-                            [
-                                [ 'label' => 'Tags', 'name' => 'tags', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'tags'],
+                    'blocks' => [
+                        [
+                            'name' => 'Tags',
+                            'fields' => [
+                                [
+                                    [ 'label' => 'Tags', 'name' => 'tags', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'tags'],
+                                ]
                             ]
-                        ]
-                    ],
-                    [
-                        'name' => 'Categories',
-                        'fields' => [
-                            [
-                                [ 'label' => 'Categories', 'name' => 'categories', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'categories'],
+                        ],
+                        [
+                            'name' => 'Categories',
+                            'fields' => [
+                                [
+                                    [ 'label' => 'Categories', 'name' => 'categories', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'categories'],
+                                ]
                             ]
-                        ]
-                    ],
-                    [
-                        'name' => 'Image',
-                        'fields' => [
-                            [
-                                [ 'label' => 'Image', 'name' => 'image', 'required' => true, 'hideLabel' => true, 'type' => 'image' ],
-                            ],
-                        ]
-                    ],
+                        ],
+                        [
+                            'name' => 'Image',
+                            'fields' => [
+                                [
+                                    [ 'label' => 'Image', 'name' => 'image', 'required' => true, 'hideLabel' => true, 'type' => 'image' ],
+                                ],
+                            ]
+                        ],
+                    ]
                 ]
             ]
         ]
