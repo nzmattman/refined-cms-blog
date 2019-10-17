@@ -51,7 +51,7 @@ class Install extends Command
     {
         $this->output->writeln('<info>Migrating the database</info>');
         Artisan::call('migrate', [
-            '--path' => 'vendor/refineddigital/blog/src/Database/Migrations',
+            '--path' => 'vendor/refineddigital/cms-blog/src/Database/Migrations',
             '--force' => 1,
         ]);
     }
