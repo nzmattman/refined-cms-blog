@@ -2,6 +2,7 @@
 
 namespace RefinedDigital\Blog\Module\Http\Repositories;
 
+use RefinedDigital\Blog\Module\Models\Blog;
 use RefinedDigital\CMS\Modules\Core\Http\Repositories\CoreRepository;
 use RefinedDigital\CMS\Modules\Tags\Models\Tag;
 
@@ -83,6 +84,30 @@ class BlogRepository extends CoreRepository
             ->get();
     }
 
+    public function getByRelatedTags($tags, $limit = 6, $avoid = false)
+    {
+        // extract the ids
+        $ids = array_map(function($tag) {
+            return $tag['name'];
+        }, $tags);
+
+        $data = $this->model::whereIn('id', $ids)
+            ->with(['meta', 'meta.template'])
+            ->whereActive(1)
+            ->published()
+            ->orderBy('published_at', 'desc')
+        ;
+
+        if ($avoid) {
+            $data->where('id', '!=', $avoid);
+        }
+
+        return $data
+            ->limit($limit)
+            ->inRandomOrder()
+            ->get();
+    }
+
     public function getFirstPostByCategory()
     {
         $categories = $this->getCategories();
@@ -114,5 +139,21 @@ class BlogRepository extends CoreRepository
     public function getCategories()
     {
         return $this->getTagCollection('categories', $this->model);
+    }
+
+    public function getForSelect()
+    {
+        $posts = Blog::active()->orderBy('name', 'asc')->get();
+        $data = [];
+        if ($posts->count()) {
+            foreach ($posts as $post) {
+                $data[] = [
+                    'id' => $post->id,
+                    'name' => $post->name,
+                ];
+            }
+        }
+
+        return $data;
     }
 }
