@@ -156,4 +156,15 @@ class BlogRepository extends CoreRepository
 
         return $data;
     }
+
+    public function getLoadMoreScripts($page, $perPage, $holder, $templateVariables = [])
+    {
+        return view()->make('blog::scripts')
+            ->with(compact('page'))
+            ->with(compact('perPage'))
+            ->with(compact('holder'))
+            ->with(compact('templateVariables'))
+        ;
+
+    }
 }

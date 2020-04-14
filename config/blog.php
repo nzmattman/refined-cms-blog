@@ -11,5 +11,10 @@ return [
 
     'details_template_id' => '__ID__',
 
-    'timezone' => 'UTC'
+    'timezone' => 'UTC',
+
+    'tags' => false,
+
+    'categories' => false,
+
 ];

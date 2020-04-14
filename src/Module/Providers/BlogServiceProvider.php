@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use RefinedDigital\Blog\Commands\Install;
 use RefinedDigital\CMS\Modules\Core\Models\PackageAggregate;
 use RefinedDigital\CMS\Modules\Core\Models\ModuleAggregate;
+use RefinedDigital\CMS\Modules\Core\Models\PublicRouteAggregate;
 use RefinedDigital\CMS\Modules\Core\Models\RouteAggregate;
 
 class BlogServiceProvider extends ServiceProvider
@@ -44,6 +45,8 @@ class BlogServiceProvider extends ServiceProvider
     {
         app(RouteAggregate::class)
             ->addRouteFile('blog', __DIR__.'/../Http/routes.php');
+        app(PublicRouteAggregate::class)
+            ->addRouteFile('blog', __DIR__.'/../Http/public-routes.php');
 
 
         $this->mergeConfigFrom(__DIR__.'/../../../config/blog.php', 'blog');

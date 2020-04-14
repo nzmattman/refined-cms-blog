@@ -110,4 +110,6 @@ class BlogController extends CoreController
         return parent::formatGetForFront($data, $request);
     }
 
+
+
 }

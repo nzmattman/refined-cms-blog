@@ -60,22 +60,6 @@ class Blog extends CoreModel
                 'right' => [
                     'blocks' => [
                         [
-                            'name' => 'Tags',
-                            'fields' => [
-                                [
-                                    [ 'label' => 'Tags', 'name' => 'tags', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'tags'],
-                                ]
-                            ]
-                        ],
-                        [
-                            'name' => 'Categories',
-                            'fields' => [
-                                [
-                                    [ 'label' => 'Categories', 'name' => 'categories', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'categories'],
-                                ]
-                            ]
-                        ],
-                        [
                             'name' => 'Image',
                             'fields' => [
                                 [
@@ -85,6 +69,24 @@ class Blog extends CoreModel
                         ],
                     ]
                 ]
+            ]
+        ]
+    ];
+
+    protected $blockTags = [
+        'name' => 'Tags',
+        'fields' => [
+            [
+                [ 'label' => 'Tags', 'name' => 'tags', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'tags'],
+            ]
+        ]
+    ];
+
+    protected $blockCategories = [
+        'name' => 'Categories',
+        'fields' => [
+            [
+                [ 'label' => 'Categories', 'name' => 'categories', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'categories'],
             ]
         ]
     ];
@@ -108,4 +110,18 @@ class Blog extends CoreModel
 	    $now = Carbon::now()->setTimezone(config('blog.timezone'));
 	    $query->where('published_at', '<=', $now);
 	}
+
+	public function setFormFields()
+    {
+        $config = config('blog');
+        $fields = $this->formFields;
+        if ($config['categories']) {
+            array_unshift($fields[0]['sections']['right']['blocks'], $this->blockCategories);
+        }
+        if ($config['tags']) {
+            array_unshift($fields[0]['sections']['right']['blocks'], $this->blockTags);
+        }
+
+        return $fields;
+    }
 }
