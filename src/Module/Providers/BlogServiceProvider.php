@@ -19,8 +19,8 @@ class BlogServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->addNamespace('blog', [
+            base_path().'/resources/views',
             __DIR__.'/../Resources/views',
-            base_path().'/resources/views'
         ]);
 
         if ($this->app->runningInConsole()) {
