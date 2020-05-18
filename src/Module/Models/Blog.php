@@ -18,7 +18,7 @@ class Blog extends CoreModel
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
 
     protected $fillable = [
-        'published_at', 'active', 'position', 'name', 'image', 'content', 'data'
+        'published_at', 'active', 'position', 'name', 'image', 'content', 'data', 'external_link', 'file',
     ];
 
     protected $appends = [ 'excerpt' ];
@@ -64,6 +64,22 @@ class Blog extends CoreModel
                             'fields' => [
                                 [
                                     [ 'label' => 'Image', 'name' => 'image', 'required' => true, 'hideLabel' => true, 'type' => 'image' ],
+                                ],
+                            ]
+                        ],
+                        [
+                            'name' => 'File',
+                            'fields' => [
+                                [
+                                    [ 'label' => 'File', 'name' => 'file', 'required' => true, 'hideLabel' => true, 'type' => 'file' ],
+                                ],
+                            ]
+                        ],
+                        [
+                            'name' => 'External Link',
+                            'fields' => [
+                                [
+                                    [ 'label' => 'External Link', 'name' => 'external_link', 'required' => true, 'hideLabel' => true, ],
                                 ],
                             ]
                         ],

@@ -43,6 +43,7 @@ class Install extends Command
         $this->migrate();
         $this->seed();
         $this->publish();
+        $this->copyDefaults();
         $this->info('Blog has been successfully installed');
     }
 
@@ -83,6 +84,35 @@ class Install extends Command
             $search = [ "'__ID__'" ];
             $replace = [ $template->id ];
             file_put_contents($configFile, str_replace($search, $replace, $file));
+        }
+    }
+
+    private function copyDefaults()
+    {
+        $this->output->writeln('<info>Copying Templates</info>');
+        $this->copy('views/templates');
+        $this->copy('sass/templates');
+    }
+
+    private function copy($assetDir)
+    {
+
+        $dir = __DIR__.'/defaults/'.$assetDir.'/';
+        $templates = scandir($dir);
+        array_shift($templates);array_shift($templates);
+
+        if (!is_dir(resource_path($assetDir))) {
+            mkdir(resource_path($assetDir));
+        }
+        if (sizeof($templates)) {
+            try {
+                foreach ($templates as $template) {
+                    $contents = file_get_contents($dir.$template);
+                    file_put_contents(resource_path($assetDir.'/'.$template), $contents);
+                }
+            } catch(\Exception $e) {
+                $this->output->writeln('<error>Failed to copy all assets</error>');
+            }
         }
     }
 

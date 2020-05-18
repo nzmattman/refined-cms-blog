@@ -1,0 +1,107 @@
+.article {
+  flex: 0 0 32%;
+  margin: 0 2% 20px 0;
+  border: 1px solid color(main-color-3);
+  background: none;
+  color: color(text);
+
+  &:nth-child(3n+3) {
+    margin-right: 0;
+  }
+
+  &__image {
+    overflow: hidden;
+  }
+
+  &__body {
+    padding: 20px;
+  }
+
+  &__date {
+    font-weight: normal;
+  }
+
+  &__date, &__heading {
+    font-size: $systemFontSize;
+    line-height: $systemLineHeight;
+    margin: 0 0 10px;
+  }
+
+  &__heading {
+    font-weight: 600;
+  }
+
+  &__header {
+    &--team {
+      .article__heading {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__footer {
+    &--fixed {
+      position: relative;
+      padding-bottom: 60px;
+
+      .article__footer {
+        position: absolute;
+        left: 0;
+        bottom: 20px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.articles {
+  display: flex;
+  flex-wrap: wrap;
+
+  &--4x {
+    .article {
+      flex: 0 0 23%;
+      &:nth-child(3n+3) {
+        margin-right: 2%;
+      }
+      &:nth-child(4n+4) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__footer {
+    margin-top: 40px;
+    text-align: center;
+  }
+}
+
+.article-details {
+  border-bottom: 1px solid color(main-color-3);
+  padding: 0 0 pad(page);
+
+  &__date {
+    font-size: $systemFontSize;
+    line-height: $systemLineHeight;
+    margin: 0;
+  }
+
+  &__heading {
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.2;
+  }
+
+  &__header {
+    margin-bottom: 20px;
+  }
+
+  &__image {
+    margin: 0 0 20px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+}

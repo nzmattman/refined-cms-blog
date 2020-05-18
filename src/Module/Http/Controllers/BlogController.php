@@ -30,11 +30,11 @@ class BlogController extends CoreController
 
         $table = new \stdClass();
         $table->fields = [
-            (object) [ 'name' => '#', 'field' => 'id', 'sortable' => true, 'classes' => ['data-table__cell--id']],
             (object) [ 'name' => 'Name', 'field' => 'name', 'sortable' => true],
             (object) [ 'name' => 'Date', 'field' => 'published_at', 'sortable' => true, 'type' => 'datetime', 'classes' => ['data-table__cell--date-time']],
             (object) [ 'name' => 'Active', 'field' => 'active', 'type'=> 'select', 'options' => [1 => 'Yes', 0 => 'No'], 'sortable' => true, 'classes' => ['data-table__cell--active']],
         ];
+
         $table->routes = (object) [
             'edit'      => 'refined.blog.edit',
             'destroy'   => 'refined.blog.destroy'
