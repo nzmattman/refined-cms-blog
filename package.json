@@ -1,5 +1,5 @@
 {
-  "name": "@refineddigital/blog",
+  "name": "@refineddigital/cms-blog",
   "version": "1.2.1",
   "scripts": {
     "publish-and-tag": "git push --tags && git push origin master",
