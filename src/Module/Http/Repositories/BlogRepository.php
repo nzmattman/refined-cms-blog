@@ -116,11 +116,12 @@ class BlogRepository extends CoreRepository
             foreach($categories as $category) {
                 $d = $this->model::whereActive(1)
                         ->whereHas('taggables', function($q) use ($category) {
-                            return $q->where('id', $category->id);
+                            return $q->where('tag_id', $category->id);
                         })
                         ->published()
                         ->orderBy('published_at', 'desc')
                         ->first();
+
                 if (isset($d->id)) {
                     $d->theCategory = $category;
                     $data->push($d);

@@ -24,6 +24,7 @@ class CreateBlogsTable extends Migration
             $table->longText('content')->nullable();
             $table->json('data')->nullable();
             $table->string('external_link')->nullable();
+            $table->integer('file')->nullable();
         });
     }
 

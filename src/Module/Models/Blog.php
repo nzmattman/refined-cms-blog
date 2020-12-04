@@ -44,11 +44,8 @@ class Blog extends CoreModel
                             'name' => 'Content',
                             'fields' => [
                                 [
-                                    [ 'label' => 'Active', 'name' => 'active', 'required' => true, 'type' => 'select', 'options' => [1 => 'Yes', 0 => 'No'] ],
-                                    [ 'label' => 'Date', 'name' => 'published_at', 'required' => true, 'type' => 'datetime' ],
-                                ],
-                                [
                                     [ 'label' => 'Heading', 'name' => 'name', 'required' => true, 'attrs' => ['v-model' => 'content.name', '@keyup' => 'updateSlug' ] ],
+                                    [ 'label' => 'Date', 'name' => 'published_at', 'required' => true, 'type' => 'datetime' ],
                                 ],
                                 [
                                     [ 'label' => 'Content', 'name' => 'content', 'required' => true, 'type' => 'richtext' ],
@@ -59,6 +56,14 @@ class Blog extends CoreModel
                 ],
                 'right' => [
                     'blocks' => [
+                        [
+                            'name' => 'Settings',
+                            'fields' => [
+                                [
+                                    [ 'label' => 'Active', 'name' => 'active', 'required' => true, 'type' => 'select', 'options' => [1 => 'Yes', 0 => 'No'] ],
+                                ],
+                            ]
+                        ],
                         [
                             'name' => 'Image',
                             'fields' => [
@@ -132,10 +137,10 @@ class Blog extends CoreModel
         $config = config('blog');
         $fields = $this->formFields;
         if ($config['categories']) {
-            array_unshift($fields[0]['sections']['right']['blocks'], $this->blockCategories);
+            array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockCategories]);
         }
         if ($config['tags']) {
-            array_unshift($fields[0]['sections']['right']['blocks'], $this->blockTags);
+            array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockTags]);
         }
 
         return $fields;
