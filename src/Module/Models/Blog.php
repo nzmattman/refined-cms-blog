@@ -143,6 +143,10 @@ class Blog extends CoreModel
             array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockTags]);
         }
 
+        if (isset($config['fields'], $config['fields']['external_link'], $config['fields']['external_link']['active']) && !$config['fields']['external_link']['active']) {
+            unset($fields[0]['sections']['right']['blocks'][4]);
+        }
+
         return $fields;
     }
 }
