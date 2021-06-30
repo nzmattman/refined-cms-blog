@@ -23,12 +23,16 @@ class BlogServiceProvider extends ServiceProvider
             __DIR__.'/../Resources/views',
         ]);
 
-        if ($this->app->runningInConsole()) {
-            if (\DB::connection()->getDatabaseName() && !\Schema::hasTable('blogs')) {
-                $this->commands([
-                    Install::class,
-                ]);
+        try {
+            if ($this->app->runningInConsole()) {
+                if (\DB::connection()->getDatabaseName() && !\Schema::hasTable('blogs')) {
+                    $this->commands([
+                        Install::class,
+                    ]);
+                }
             }
+        } catch(\Exception $e) {
+
         }
 
         $this->publishes([
