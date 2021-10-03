@@ -147,7 +147,7 @@ class Blog extends CoreModel
             array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockTags]);
         }
 
-        if ($config['external_link'] || $config['externalLink']) {
+        if ((isset($config['external_link']) && $config['external_link']) || (isset($config['externalLink']) && $config['externalLink'])) {
             $index = sizeof($rightBlocks);
             array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockExternalLink]);
         }
