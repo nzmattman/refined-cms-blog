@@ -72,22 +72,6 @@ class Blog extends CoreModel
                                 ],
                             ]
                         ],
-                        [
-                            'name' => 'File',
-                            'fields' => [
-                                [
-                                    [ 'label' => 'File', 'name' => 'file', 'required' => true, 'hideLabel' => true, 'type' => 'file' ],
-                                ],
-                            ]
-                        ],
-                        [
-                            'name' => 'External Link',
-                            'fields' => [
-                                [
-                                    [ 'label' => 'External Link', 'name' => 'external_link', 'required' => true, 'hideLabel' => true, ],
-                                ],
-                            ]
-                        ],
                     ]
                 ]
             ]
@@ -108,6 +92,24 @@ class Blog extends CoreModel
         'fields' => [
             [
                 [ 'label' => 'Categories', 'name' => 'categories', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'categories'],
+            ]
+        ]
+    ];
+
+    protected $blockExternalLink = [
+        'name' => 'External Link',
+        'fields' => [
+            [
+                [ 'label' => 'External Link', 'name' => 'external_link', 'required' => true, 'hideLabel' => true, ],
+            ]
+        ]
+    ];
+
+    protected $blockFile = [
+        'name' => 'File',
+        'fields' => [
+            [
+                [ 'label' => 'File', 'name' => 'file', 'required' => true, 'hideLabel' => true, 'type' => 'file' ],
             ]
         ]
     ];
@@ -136,6 +138,8 @@ class Blog extends CoreModel
     {
         $config = config('blog');
         $fields = $this->formFields;
+        $rightBlocks = $fields[0]['sections']['right']['blocks'];
+
         if ($config['categories']) {
             array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockCategories]);
         }
@@ -143,9 +147,16 @@ class Blog extends CoreModel
             array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockTags]);
         }
 
-        if (isset($config['fields'], $config['fields']['external_link'], $config['fields']['external_link']['active']) && !$config['fields']['external_link']['active']) {
-            unset($fields[0]['sections']['right']['blocks'][4]);
+        if ($config['external_link'] || $config['externalLink']) {
+            $index = sizeof($rightBlocks);
+            array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockExternalLink]);
         }
+
+        if ($config['file']) {
+            $index = sizeof($rightBlocks);
+            array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockFile]);
+        }
+
 
         return $fields;
     }

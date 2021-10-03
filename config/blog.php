@@ -17,4 +17,8 @@ return [
 
     'categories' => false,
 
+    'file' => false,
+
+    'externalLink' => false,
+
 ];
