@@ -21,4 +21,18 @@ return [
 
     'externalLink' => false,
 
+    'images' => false,
+
+    /*
+     * or an array of fields to use instead
+    'images' => [
+      [
+          [ 'label' => 'Images', 'name' => 'images', 'type' => 'repeatable', 'required' => false, 'hideLabel' => true, 'fields' =>
+              [
+                  [ 'name' => 'Image', 'page_content_type_id' => 4, 'field' => 'image' ],
+              ]
+          ],
+      ],
+    */
+
 ];

@@ -18,15 +18,16 @@ class Blog extends CoreModel
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
 
     protected $fillable = [
-        'published_at', 'active', 'position', 'name', 'image', 'content', 'data', 'external_link', 'file',
+        'published_at', 'active', 'position', 'name', 'image', 'content', 'data', 'external_link', 'file', 'images'
     ];
 
-    protected $appends = [ 'excerpt' ];
+    protected $appends = [ 'excerpt', 'modelImages' ];
 
     protected $hidden = [ 'taggables' ];
 
     protected $casts = [
-        'data' => 'object'
+        'data' => 'object',
+        'images' => 'object'
     ];
 
     /**
@@ -114,6 +115,19 @@ class Blog extends CoreModel
         ]
     ];
 
+    protected $imagesBlock = [
+          'name' => 'Images',
+          'fields' => [
+              [
+                  [ 'label' => 'Images', 'name' => 'images', 'type' => 'repeatable', 'required' => false, 'hideLabel' => true, 'fields' =>
+                      [
+                          [ 'name' => 'Image', 'page_content_type_id' => 4, 'field' => 'image', 'note' => 'Image will be resized to <strong>Fit <em>within</em> 1600px wide x 1280px tall</strong>' ],
+                      ]
+                  ],
+              ],
+          ]
+      ];
+
     public function getExcerptAttribute()
     {
         $content = strip_tags($this->content);
@@ -157,7 +171,23 @@ class Blog extends CoreModel
             array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockFile]);
         }
 
+        if (isset($config['images']) && $config['images']) {
+            $imageBlock = $this->imagesBlock;
+            if (is_array($config['images'])) {
+                $imageBlock['fields'] = $config['images'];
+            }
+            $fields[] = $imageBlock;
+        }
 
         return $fields;
+    }
+
+    public function getModelImagesAttribute()
+    {
+        if ($this->attributes['images']) {
+            return json_decode(json_decode($this->attributes['images']));
+        }
+
+        return [];
     }
 }
