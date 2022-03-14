@@ -13,6 +13,8 @@ return [
 
     'timezone' => 'UTC',
 
+    'featured' => false,
+
     'tags' => false,
 
     'categories' => false,

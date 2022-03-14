@@ -18,7 +18,7 @@ class Blog extends CoreModel
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
 
     protected $fillable = [
-        'published_at', 'active', 'position', 'name', 'image', 'content', 'data', 'external_link', 'file', 'images'
+        'published_at', 'active', 'position', 'name', 'image', 'content', 'data', 'external_link', 'file', 'images', 'featured'
     ];
 
     protected $appends = [ 'excerpt', 'modelImages' ];
@@ -77,6 +77,14 @@ class Blog extends CoreModel
                 ]
             ]
         ]
+    ];
+
+    protected $blockFeatured = [
+        'label' => 'Featured',
+        'name' => 'featured',
+        'required' => false,
+        'type' => 'select',
+        'options' => [0 => 'No', 1 => 'Yes']
     ];
 
     protected $blockTags = [
@@ -148,16 +156,30 @@ class Blog extends CoreModel
 	    $query->where('published_at', '<=', $now);
 	}
 
+	public function scopeFeatured($query)
+	{
+	    $query->whereFeatured(1);
+	}
+
+	public function scopeNotFeatured($query)
+	{
+	    $query->whereFeatured(0);
+	}
+
 	public function setFormFields()
     {
         $config = config('blog');
         $fields = $this->formFields;
         $rightBlocks = $fields[0]['sections']['right']['blocks'];
 
-        if ($config['categories']) {
+        if (isset($config['featured']) && $config['featured']) {
+            array_splice($fields[0]['sections']['right']['blocks'][0]['fields'][0], 1, 0, [$this->blockFeatured]);
+        }
+
+        if (isset($config['categories']) && $config['categories']) {
             array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockCategories]);
         }
-        if ($config['tags']) {
+        if (isset($config['tags']) && $config['tags']) {
             array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockTags]);
         }
 
@@ -166,7 +188,7 @@ class Blog extends CoreModel
             array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockExternalLink]);
         }
 
-        if ($config['file']) {
+        if (isset($config['file']) && $config['file']) {
             $index = sizeof($rightBlocks);
             array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockFile]);
         }
@@ -185,7 +207,13 @@ class Blog extends CoreModel
     public function getModelImagesAttribute()
     {
         if ($this->attributes['images']) {
-            return json_decode(json_decode($this->attributes['images']));
+            $decode = json_decode($this->attributes['images']);
+
+            if (!is_array($decode)) {
+                return json_decode($decode);
+            }
+
+            return $decode;
         }
 
         return [];

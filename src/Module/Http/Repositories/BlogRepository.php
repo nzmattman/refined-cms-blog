@@ -4,6 +4,7 @@ namespace RefinedDigital\Blog\Module\Http\Repositories;
 
 use RefinedDigital\Blog\Module\Models\Blog;
 use RefinedDigital\CMS\Modules\Core\Http\Repositories\CoreRepository;
+use RefinedDigital\CMS\Modules\Core\Models\Uri;
 use RefinedDigital\CMS\Modules\Tags\Models\Tag;
 
 class BlogRepository extends CoreRepository
@@ -14,16 +15,23 @@ class BlogRepository extends CoreRepository
         $this->setModel('RefinedDigital\Blog\Module\Models\Blog');
     }
 
-    public function getForFront($perPage = 5)
+    public function getForFront($perPage = 5, $excludeCurrent = false)
     {
-        $data = $this->model::with(['meta', 'meta.template'])
-            ->whereActive(1)
-            ->published()
-            ->search(['name','content'])
-            ->orderBy('published_at', 'desc')
-            ->paging($perPage);
+        $query = Blog::with(['meta', 'meta.template'])
+                     ->whereActive(1)
+                     ->published()
+                     ->search(['name','content'])
+                     ->orderBy('published_at', 'desc');
+        if ($excludeCurrent) {
+            $uri = request()->segment(count(request()->segments()));
+            $current = Uri::whereUri($uri)->first();
 
-        return $data;
+            if (isset($current->id)) {
+                $query->where('id', '!=', $current->uriable_id);
+            }
+        }
+
+        return $query->paging($perPage);
     }
 
     public function getForFrontWithTags($tag, $type, $perPage = 5)
@@ -167,5 +175,30 @@ class BlogRepository extends CoreRepository
             ->with(compact('templateVariables'))
         ;
 
+    }
+
+    public function getFeatured($limit = null)
+    {
+        $posts = Blog::
+            active()
+            ->published()
+            ->featured()
+            ->order();
+
+        if ($limit) {
+            $posts->limit = $limit;
+        }
+
+        if ($limit && $limit == 1) {
+            return $posts->first();
+        }
+
+        $data = $posts->get();
+
+        if ($data->count() == 1) {
+            return $data->first();
+        }
+
+        return $data;
     }
 }

@@ -35,6 +35,19 @@ class BlogController extends CoreController
             (object) [ 'name' => 'Active', 'field' => 'active', 'type'=> 'select', 'options' => [1 => 'Yes', 0 => 'No'], 'sortable' => true, 'classes' => ['data-table__cell--active']],
         ];
 
+        $config = config('blog');
+        if (isset($config['featured']) && $config['featured']) {
+            $featuredField = (object) [
+                'name' => 'Featured',
+                'field' => 'featured',
+                'type'=> 'select',
+                'options' => [1 => 'Yes', 0 => 'No'],
+                'sortable' => false,
+                'classes' => ['data-table__cell--active']
+            ];
+            array_splice($table->fields, 2, 0, [$featuredField]);
+        }
+
         $table->routes = (object) [
             'edit'      => 'refined.blog.edit',
             'destroy'   => 'refined.blog.destroy'

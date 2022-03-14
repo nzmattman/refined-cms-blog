@@ -19,6 +19,7 @@ class CreateBlogsTable extends Migration
             $table->softDeletes();
             $table->timestamp('published_at')->nullable();
             $table->boolean('active')->default(1);
+            $table->boolean('featured')->default(0);
             $table->string('name');
             $table->integer('image')->nullable();
             $table->longText('content')->nullable();
