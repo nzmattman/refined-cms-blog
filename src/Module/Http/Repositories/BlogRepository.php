@@ -177,16 +177,20 @@ class BlogRepository extends CoreRepository
 
     }
 
-    public function getFeatured($limit = null)
+    public function getFeatured($limit = null, $excludeCurrent = true)
     {
         $posts = Blog::
-            active()
-            ->published()
-            ->featured()
-            ->order();
+                     active()
+                     ->published()
+                     ->featured()
+                     ->order();
 
         if ($limit) {
-            $posts->limit = $limit;
+            $posts->limit($limit);
+        }
+
+        if ($excludeCurrent) {
+            $posts->where('id', '!=', $excludeCurrent);
         }
 
         if ($limit && $limit == 1) {
