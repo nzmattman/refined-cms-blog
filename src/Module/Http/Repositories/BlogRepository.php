@@ -177,7 +177,7 @@ class BlogRepository extends CoreRepository
 
     }
 
-    public function getFeatured($limit = null, $excludeCurrent = true)
+    public function getFeatured($limit = null, $excludeCurrent = false)
     {
         $posts = Blog::
                      active()
