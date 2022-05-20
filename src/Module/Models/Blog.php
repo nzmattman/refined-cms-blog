@@ -184,8 +184,24 @@ class Blog extends CoreModel
         }
 
         if ((isset($config['external_link']) && $config['external_link']) || (isset($config['externalLink']) && $config['externalLink'])) {
-            $index = sizeof($rightBlocks);
-            array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockExternalLink]);
+            $link = isset($config['external_link']) ? $config['external_link'] : $config['externalLink'];
+            $show = true;
+            if (is_array($link)) {
+                if (isset($link['enable']) && !$link['enable']) {
+                    $show = false;
+                }
+                if (isset($link['showLabel']) && $link['showLabel']) {
+                    $this->blockExternalLink['fields'][0][0]['hideLabel'] = false;
+                }
+                if (isset($link['label']) && $link['label']) {
+                    $this->blockExternalLink['fields'][0][0]['label'] = $link['label'];
+                }
+            }
+
+            if ($show) {
+                $index = sizeof($rightBlocks);
+                array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockExternalLink]);
+            }
         }
 
         if (isset($config['file']) && $config['file']) {

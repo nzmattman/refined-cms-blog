@@ -22,6 +22,14 @@ return [
     'file' => false,
 
     'externalLink' => false,
+    /**
+     * or
+     * 'externalLink' => [
+     *   'enable' => true,
+     *   'showLabel' => true,
+     *   'label' => 'Link'
+     * ]
+     */
 
     'images' => false,
 
