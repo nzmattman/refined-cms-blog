@@ -90,7 +90,7 @@ class Install extends Command
     private function copyDefaults()
     {
         $this->output->writeln('<info>Copying Templates</info>');
-        // $this->copy('views/templates');
+        $this->copy('views/templates');
         $this->copy('sass/components');
     }
 
