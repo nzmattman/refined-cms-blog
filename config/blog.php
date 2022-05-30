@@ -32,6 +32,7 @@ return [
      */
 
     'excerptLength' => 200,
+    'excerptType' => 'character',
 
     'images' => false,
 

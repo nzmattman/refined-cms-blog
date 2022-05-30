@@ -13,20 +13,21 @@ class Blog extends CoreModel
 {
     use SoftDeletes, IsPage, Taggable, IsArticle;
 
-    protected $order = [ 'column' => 'published_at', 'direction' => 'desc'];
+    protected $order = ['column' => 'published_at', 'direction' => 'desc'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
 
     protected $fillable = [
-        'published_at', 'active', 'position', 'name', 'image', 'content', 'data', 'external_link', 'file', 'images', 'featured'
+        'published_at', 'active', 'position', 'name', 'image', 'content', 'data', 'external_link',
+        'file', 'images', 'featured'
     ];
 
-    protected $appends = [ 'excerpt', 'modelImages' ];
+    protected $appends = ['excerpt', 'modelImages'];
 
-    protected $hidden = [ 'taggables' ];
+    protected $hidden = ['taggables'];
 
     protected $casts = [
-        'data' => 'object',
+        'data'   => 'object',
         'images' => 'object'
     ];
 
@@ -37,16 +38,16 @@ class Blog extends CoreModel
      */
     public $formFields = [
         [
-            'name' => 'Content',
+            'name'     => 'Content',
             'sections' => [
-                'left' => [
+                'left'  => [
                     'blocks' => [
                         [
-                            'name' => 'Content',
+                            'name'   => 'Content',
                             'fields' => [
                                 [
-                                    [ 'label' => 'Heading', 'name' => 'name', 'required' => true, 'attrs' => ['v-model' => 'content.name', '@keyup' => 'updateSlug' ] ],
-                                    [ 'label' => 'Date', 'name' => 'published_at', 'required' => true, 'type' => 'datetime' ],
+                                    ['label' => 'Heading', 'name' => 'name', 'required' => true, 'attrs' => ['v-model' => 'content.name', '@keyup' => 'updateSlug' ] ],
+                                    [ 'label' => 'Date', 'name' => 'published_at','required' => true, 'type' => 'datetime' ],
                                 ],
                                 [
                                     [ 'label' => 'Content', 'name' => 'content', 'required' => true, 'type' => 'richtext' ],
@@ -58,18 +59,18 @@ class Blog extends CoreModel
                 'right' => [
                     'blocks' => [
                         [
-                            'name' => 'Settings',
+                            'name'   => 'Settings',
                             'fields' => [
                                 [
-                                    [ 'label' => 'Active', 'name' => 'active', 'required' => true, 'type' => 'select', 'options' => [1 => 'Yes', 0 => 'No'] ],
+                                    ['label' => 'Active', 'name' => 'active', 'required' => true, 'type'  => 'select', 'options' => [1 => 'Yes', 0 => 'No'] ],
                                 ],
                             ]
                         ],
                         [
-                            'name' => 'Image',
+                            'name'   => 'Image',
                             'fields' => [
                                 [
-                                    [ 'label' => 'Image', 'name' => 'image', 'required' => true, 'hideLabel' => true, 'type' => 'image' ],
+                                    ['label' => 'Image', 'name' => 'image', 'required'  => true, 'hideLabel' => true, 'type' => 'image' ],
                                 ],
                             ]
                         ],
@@ -80,33 +81,33 @@ class Blog extends CoreModel
     ];
 
     protected $blockFeatured = [
-        'label' => 'Featured',
-        'name' => 'featured',
+        'label'    => 'Featured',
+        'name'     => 'featured',
         'required' => false,
-        'type' => 'select',
-        'options' => [0 => 'No', 1 => 'Yes']
+        'type'     => 'select',
+        'options'  => [0 => 'No', 1 => 'Yes']
     ];
 
     protected $blockTags = [
-        'name' => 'Tags',
+        'name'   => 'Tags',
         'fields' => [
             [
-                [ 'label' => 'Tags', 'name' => 'tags', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'tags'],
+                [ 'label' => 'Tags', 'name' => 'tags', 'type' => 'tags', 'hideLabel' => true,  'tagType' => 'tags' ],
             ]
         ]
     ];
 
     protected $blockCategories = [
-        'name' => 'Categories',
+        'name'   => 'Categories',
         'fields' => [
             [
-                [ 'label' => 'Categories', 'name' => 'categories', 'type' => 'tags', 'hideLabel' => true, 'tagType'=> 'categories'],
+                [ 'label' => 'Categories', 'name' => 'categories', 'type' => 'tags', 'hideLabel' => true, 'tagType' => 'categories' ],
             ]
         ]
     ];
 
     protected $blockExternalLink = [
-        'name' => 'External Link',
+        'name'   => 'External Link',
         'fields' => [
             [
                 [ 'label' => 'External Link', 'name' => 'external_link', 'required' => true, 'hideLabel' => true, ],
@@ -115,106 +116,106 @@ class Blog extends CoreModel
     ];
 
     protected $blockFile = [
-        'name' => 'File',
+        'name'   => 'File',
         'fields' => [
             [
-                [ 'label' => 'File', 'name' => 'file', 'required' => true, 'hideLabel' => true, 'type' => 'file' ],
+                [ 'label' => 'File', 'name' => 'file', 'required' => true, 'hideLabel' => true, 'type'  => 'file' ],
             ]
         ]
     ];
 
     protected $imagesBlock = [
-          'name' => 'Images',
-          'fields' => [
-              [
-                  [ 'label' => 'Images', 'name' => 'images', 'type' => 'repeatable', 'required' => false, 'hideLabel' => true, 'fields' =>
-                      [
-                          [ 'name' => 'Image', 'page_content_type_id' => 4, 'field' => 'image', 'note' => 'Image will be resized to <strong>Fit <em>within</em> 1600px wide x 1280px tall</strong>' ],
-                      ]
-                  ],
-              ],
-          ]
-      ];
+        'name'   => 'Images',
+        'fields' => [
+            [
+                [
+                    'label'    => 'Images', 'name' => 'images', 'type' => 'repeatable', 'required' => false, 'hideLabel' => true,
+                    'fields' => [
+                        [ 'name' => 'Image', 'page_content_type_id' => 4, 'field' => 'image', 'note' => 'Image will be resized to <strong>Fit <em>within</em> 1600px wide x 1280px tall</strong>' ],
+                    ]
+                ],
+            ],
+        ]
+    ];
 
-    public function getExcerptAttribute()
+    public function __construct(array $attributes = [])
     {
-        $content = strip_tags($this->content);
-
         $config = config('blog');
-        $length = (isset($config['excerptLength']) && $config['excerptLength']) ? $config['excerptLength'] : 200;
 
-        $excerpt = substr($content, 0, $length);
-        if (strlen($content) > strlen($excerpt)) {
-            $excerpt .= '<span>...</span>';
+        if (isset($config['excerptLength']) && $config['excerptLength']) {
+            $this->exceptLength = $config['excerptLength'];
+        }
+        if (isset($config['exceptType']) && $config['exceptType']) {
+            $this->excerptType = $config['exceptType'];
         }
 
-        return $excerpt;
-
+        return parent::__construct($attributes);
     }
 
-
-	public function scopePublished($query)
-	{
-	    $now = Carbon::now()->setTimezone(config('blog.timezone'));
-	    $query->where('published_at', '<=', $now);
-	}
-
-	public function scopeFeatured($query)
-	{
-	    $query->whereFeatured(1);
-	}
-
-	public function scopeNotFeatured($query)
-	{
-	    $query->whereFeatured(0);
-	}
-
-	public function setFormFields()
+    public function scopePublished($query)
     {
-        $config = config('blog');
-        $fields = $this->formFields;
+        $now = Carbon::now()->setTimezone(config('blog.timezone'));
+        $query->where('published_at', '<=', $now);
+    }
+
+    public function scopeFeatured($query)
+    {
+        $query->whereFeatured(1);
+    }
+
+    public function scopeNotFeatured($query)
+    {
+        $query->whereFeatured(0);
+    }
+
+    public function setFormFields()
+    {
+        $config      = config('blog');
+        $fields      = $this->formFields;
         $rightBlocks = $fields[0]['sections']['right']['blocks'];
 
-        if (isset($config['featured']) && $config['featured']) {
-            array_splice($fields[0]['sections']['right']['blocks'][0]['fields'][0], 1, 0, [$this->blockFeatured]);
+        if(isset($config['featured']) && $config['featured']) {
+            array_splice($fields[0]['sections']['right']['blocks'][0]['fields'][0], 1, 0,
+                [$this->blockFeatured]);
         }
 
-        if (isset($config['categories']) && $config['categories']) {
+        if(isset($config['categories']) && $config['categories']) {
             array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockCategories]);
         }
-        if (isset($config['tags']) && $config['tags']) {
+        if(isset($config['tags']) && $config['tags']) {
             array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$this->blockTags]);
         }
 
-        if ((isset($config['external_link']) && $config['external_link']) || (isset($config['externalLink']) && $config['externalLink'])) {
+        if((isset($config['external_link']) && $config['external_link']) || (isset($config['externalLink']) && $config['externalLink'])) {
             $link = isset($config['external_link']) ? $config['external_link'] : $config['externalLink'];
             $show = true;
-            if (is_array($link)) {
-                if (isset($link['enable']) && !$link['enable']) {
+            if(is_array($link)) {
+                if(isset($link['enable']) && !$link['enable']) {
                     $show = false;
                 }
-                if (isset($link['showLabel']) && $link['showLabel']) {
+                if(isset($link['showLabel']) && $link['showLabel']) {
                     $this->blockExternalLink['fields'][0][0]['hideLabel'] = false;
                 }
-                if (isset($link['label']) && $link['label']) {
+                if(isset($link['label']) && $link['label']) {
                     $this->blockExternalLink['fields'][0][0]['label'] = $link['label'];
                 }
             }
 
-            if ($show) {
+            if($show) {
                 $index = sizeof($rightBlocks);
-                array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockExternalLink]);
+                array_splice($fields[0]['sections']['right']['blocks'], $index, 0,
+                    [$this->blockExternalLink]);
             }
         }
 
-        if (isset($config['file']) && $config['file']) {
+        if(isset($config['file']) && $config['file']) {
             $index = sizeof($rightBlocks);
             array_splice($fields[0]['sections']['right']['blocks'], $index, 0, [$this->blockFile]);
         }
 
-        if (isset($config['images']) && $config['images']) {
+        if(isset($config['images']) && $config['images']) {
             $imageBlock = $this->imagesBlock;
-            if (is_array($config['images'])) {
+            if(is_array($config['images'])) {
                 $imageBlock['fields'] = $config['images'];
             }
             $fields[] = $imageBlock;
@@ -225,10 +226,10 @@ class Blog extends CoreModel
 
     public function getModelImagesAttribute()
     {
-        if ($this->attributes['images']) {
+        if($this->attributes['images']) {
             $decode = json_decode($this->attributes['images']);
 
-            if (!is_array($decode)) {
+            if(!is_array($decode)) {
                 return json_decode($decode);
             }
 
