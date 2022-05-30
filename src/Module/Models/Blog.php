@@ -135,12 +135,15 @@ class Blog extends CoreModel
               ],
           ]
       ];
-
+    
     public function getExcerptAttribute()
     {
         $content = strip_tags($this->content);
 
-        $excerpt = substr($content, 0, 200);
+        $config = config('blog');
+        $length = (isset($config['excerptLength']) && $config['excerptLength']) ? $config['excerptLength'] : 200;
+
+        $excerpt = substr($content, 0, $length);
         if (strlen($content) > $excerpt) {
             $excerpt .= '...';
         }

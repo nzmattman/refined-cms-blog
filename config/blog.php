@@ -31,6 +31,8 @@ return [
      * ]
      */
 
+    'excerptLength' => 200,
+
     'images' => false,
 
     /*
