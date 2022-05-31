@@ -141,7 +141,7 @@ class Blog extends CoreModel
     public function __construct(array $attributes = [])
     {
         $config = config('blog');
-        
+
         if (isset($config['excerptLength']) && $config['excerptLength']) {
             $this->excerptLength = $config['excerptLength'];
         }
