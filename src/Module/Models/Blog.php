@@ -141,12 +141,12 @@ class Blog extends CoreModel
     public function __construct(array $attributes = [])
     {
         $config = config('blog');
-
+        
         if (isset($config['excerptLength']) && $config['excerptLength']) {
-            $this->exceptLength = $config['excerptLength'];
+            $this->excerptLength = $config['excerptLength'];
         }
-        if (isset($config['exceptType']) && $config['exceptType']) {
-            $this->excerptType = $config['exceptType'];
+        if (isset($config['excerptType']) && $config['excerptType']) {
+            $this->excerptType = $config['excerptType'];
         }
 
         return parent::__construct($attributes);
