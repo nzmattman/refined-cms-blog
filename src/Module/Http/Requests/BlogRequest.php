@@ -27,8 +27,12 @@ class BlogRequest extends FormRequest
         $args = [
             'name'                => ['required' => 'required'],
             'content'             => ['required' => 'required'],
-            'image'               => ['required' => 'required'],
         ];
+
+        $requiredImage            = config('blog.fields.image.required');
+        if ($requiredImage) {
+            $args['image'] = ['required' => 'required'];
+        }
 
         // return the results to set for validation
         return $args;
