@@ -31,13 +31,11 @@ class BlogRequest extends FormRequest
 
         $config = config('blog');
 
-        $requiredImage            = $config['thumbnail']['required'];
-        if ($requiredImage) {
+        if ($config['thumbnail']['required'] && $config['thumbnail']['show']) {
             $args['image'] = ['required' => 'required'];
         }
 
-        $requiredBanner            = $config['banner']['required'];
-        if ($requiredBanner) {
+        if ($config['banner']['required'] && $config['banner']['show']) {
             $args['banner'] = ['required' => 'required'];
         }
 
