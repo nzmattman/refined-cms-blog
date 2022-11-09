@@ -29,12 +29,31 @@ class BlogRequest extends FormRequest
             'content'             => ['required' => 'required'],
         ];
 
-        $requiredImage            = config('blog.fields.image.required');
+        $config = config('blog');
+
+        $requiredImage            = $config['thumbnail']['required'];
         if ($requiredImage) {
             $args['image'] = ['required' => 'required'];
         }
 
+        $requiredBanner            = $config['banner']['required'];
+        if ($requiredBanner) {
+            $args['banner'] = ['required' => 'required'];
+        }
+
         // return the results to set for validation
         return $args;
+    }
+
+    public function messages()
+    {
+        $messages = [];
+
+        $requiredImage = config('blog.thumbnail.required');
+        if ($requiredImage) {
+            $messages['image.required'] = 'The thumbnail field is required.';
+        }
+
+        return $messages;
     }
 }

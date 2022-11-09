@@ -1,18 +1,23 @@
 <?php
 
 return [
-    'fields' => [
-        'image' => [
-            'imageNote' => 'Image here <em><strong>must be</strong> 770px wide x 400px tall</em>',
-            'width' => 770,
-            'height' => 400,
-            'required' => true,
-        ]
-    ],
-
     'details_template_id' => '__ID__',
 
     'timezone' => 'UTC',
+
+    'banner' => [
+        'show' => true,
+        'required' => true,
+        'width' => 1920,
+        'height' => 960,
+    ],
+
+    'thumbnail' => [
+        'show' => true,
+        'required' => true,
+        'width' => 770,
+        'height' => 400,
+    ],
 
     'featured' => false,
 

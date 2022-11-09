@@ -18,8 +18,18 @@ class Blog extends CoreModel
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
 
     protected $fillable = [
-        'published_at', 'active', 'position', 'name', 'image', 'content', 'data', 'external_link',
-        'file', 'images', 'featured'
+        'published_at',
+        'active',
+        'position',
+        'name',
+        'image',
+        'banner',
+        'content',
+        'data',
+        'external_link',
+        'file',
+        'images',
+        'featured'
     ];
 
     protected $appends = ['excerpt', 'modelImages'];
@@ -63,14 +73,6 @@ class Blog extends CoreModel
                             'fields' => [
                                 [
                                     ['label' => 'Active', 'name' => 'active', 'required' => true, 'type'  => 'select', 'options' => [1 => 'Yes', 0 => 'No'] ],
-                                ],
-                            ]
-                        ],
-                        [
-                            'name'   => 'Image',
-                            'fields' => [
-                                [
-                                    ['label' => 'Image', 'name' => 'image', 'required'  => true, 'hideLabel' => true, 'type' => 'image' ],
                                 ],
                             ]
                         ],
@@ -138,6 +140,14 @@ class Blog extends CoreModel
         ]
     ];
 
+    protected $bannerImage = [
+        ['label' => 'Banner', 'name' => 'banner', 'required'  => true, 'hideLabel' => false, 'type' => 'image' ]
+    ];
+
+    protected $thumbnailImage = [
+        ['label' => 'Thumbnail', 'name' => 'image', 'required'  => true, 'hideLabel' => false, 'type' => 'image' ]
+    ];
+
     public function __construct(array $attributes = [])
     {
         $config = config('blog');
@@ -187,7 +197,7 @@ class Blog extends CoreModel
         }
 
         if((isset($config['external_link']) && $config['external_link']) || (isset($config['externalLink']) && $config['externalLink'])) {
-            $link = isset($config['external_link']) ? $config['external_link'] : $config['externalLink'];
+            $link = $config['external_link'] ?? $config['externalLink'];
             $show = true;
             if(is_array($link)) {
                 if(isset($link['enable']) && !$link['enable']) {
@@ -221,7 +231,7 @@ class Blog extends CoreModel
             $fields[] = $imageBlock;
         }
 
-        return $fields;
+        return $this->setImages($fields, $config);
     }
 
     public function getModelImagesAttribute()
@@ -237,5 +247,37 @@ class Blog extends CoreModel
         }
 
         return [];
+    }
+
+    private function setImageAttributes($field, $config)
+    {
+        $field[0]['imageNote'] = 'Image here will be resized to <strong><em>FIT WITHIN</em> '.$config['width'].'px x '.$config['height'].'px</strong>';
+        if ($config['required']) {
+            $field[0]['required'] = $config['required'];
+        }
+
+        return $field;
+    }
+
+    private function setImages($fields, $config)
+    {
+        $group = [
+            'name'   => 'Images',
+            'fields' => [ ]
+        ];
+
+        if (isset($config['banner'], $config['banner']['show']) && $config['banner']['show']) {
+            $group['fields'][] = $this->setImageAttributes($this->bannerImage, $config['banner']);
+        }
+
+        if (isset($config['thumbnail'], $config['thumbnail']['show']) && $config['thumbnail']['show']) {
+            $group['fields'][] = $this->setImageAttributes($this->thumbnailImage, $config['thumbnail']);
+        }
+
+        if (sizeof($group['fields'])) {
+            array_splice($fields[0]['sections']['right']['blocks'], 1, 0, [$group]);
+        }
+
+        return $fields;
     }
 }
