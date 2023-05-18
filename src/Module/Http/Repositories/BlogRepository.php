@@ -5,7 +5,9 @@ namespace RefinedDigital\Blog\Module\Http\Repositories;
 use RefinedDigital\Blog\Module\Models\Blog;
 use RefinedDigital\CMS\Modules\Core\Http\Repositories\CoreRepository;
 use RefinedDigital\CMS\Modules\Core\Models\Uri;
+use RefinedDigital\CMS\Modules\Pages\Http\Repositories\PageRepository;
 use RefinedDigital\CMS\Modules\Tags\Models\Tag;
+use stdClass;
 
 class BlogRepository extends CoreRepository
 {
@@ -204,5 +206,55 @@ class BlogRepository extends CoreRepository
         }
 
         return $data;
+    }
+
+    public function getXmlSitemap($xmlUrl)
+    {
+        $posts = $this->getForFront(999999);
+        $xml = [];
+        if (isset($xmlUrl)) {
+            $xmlUrl = rtrim($xmlUrl, '/');
+
+            $pageRepo = new PageRepository();
+
+            $categories = [];
+            $baseUrl = rtrim(config('app.url'), '/').'/';
+            if ($posts->count()) {
+                foreach ($posts as $post) {
+                    $urls = [str_replace($baseUrl, '', $xmlUrl), $post->meta->uri];
+                    $page = new stdClass();
+                    $page->url = $baseUrl . implode('/', $urls);
+                    $page->date = $post->updated_at->toAtomString();
+                    $urlSegments = array_filter(explode('/', $page->url));
+                    $page->priority = $pageRepo->getXmlSitemapPriority(sizeof($urlSegments) - 1);
+                    $page->children = [];
+                    $xml[] = $page;
+                    $pArray = $post->toArray();
+
+                    if ($pArray['categories'] && sizeof($pArray['categories'])) {
+                        foreach ($pArray['categories'] as $category) {
+                            if (!in_array($category, $categories)) {
+                                $urls = [str_replace($baseUrl, '', $xmlUrl), $category['meta']['uri']];
+                                $page = new stdClass();
+                                $page->url = $baseUrl . implode('/', $urls);
+                                $page->date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $category['updated_at'])->toAtomString();
+                                $urlSegments = array_filter(explode('/', $page->url));
+                                $page->priority = $pageRepo->getXmlSitemapPriority(sizeof($urlSegments) - 1);
+                                $page->children = [];
+                                $categories[] = $page;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (sizeof($categories)) {
+                foreach ($categories as $page) {
+                    $xml[] = $page;
+                }
+            }
+        }
+
+        return $xml;
     }
 }

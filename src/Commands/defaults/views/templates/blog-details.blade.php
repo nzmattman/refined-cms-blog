@@ -1,54 +1,62 @@
 @extends('layouts.index')
 
 @section('meta-description')
-<meta name="description" content="{{ $page->excerpt }}"/>
+    <meta name="description" content="{{ $page->excerpt }}"/>
 @stop
 
 @section('facebook-og')
-<?php
-    if (isset($page->data->facebook_cover_photo)) {
-        $image = image()->load($page->data->facebook_cover_photo)->width(1200)->height(630)->object();
-    }
-?>
-<meta property="og:url"                content="{{ request()->url() }}" />
-<meta property="og:type"               content="article" />
-<meta property="og:title"              content="{{ $page->name }}" />
-<meta property="og:description"        content="{{ $page->excerpt }}" />
-@if (isset($image->src))
-<meta property="og:image"              content="{{ asset($image->src) }}" />
-@endif
-@if(isset($image->width))
-<meta property="og:image:width"        content="{{ $image->width }}" />
-@endif
-@if(isset($image->height))
-<meta property="og:image:height"       content="{{ $image->height }}" />
-@endif
+    @php
+        if (isset($page->data->facebook_cover_photo)) {
+            $image = image()->load($page->data->facebook_cover_photo)->width(1200)->height(630)->object();
+        }
+        $listingPage = pages()->find(PAGE_ID);
+    @endphp
+    <meta property="og:url"                content="{{ request()->url() }}" />
+    <meta property="og:type"               content="article" />
+    <meta property="og:title"              content="{{ $page->name }}" />
+    <meta property="og:description"        content="{{ $page->excerpt }}" />
+    @if (isset($image->src))
+        <meta property="og:image"              content="{{ asset($image->src) }}" />
+    @endif
+    @if(isset($image->width))
+        <meta property="og:image:width"        content="{{ $image->width }}" />
+    @endif
+    @if(isset($image->height))
+        <meta property="og:image:height"       content="{{ $image->height }}" />
+    @endif
 @stop
 
 @section('template')
 
-  <div class="page__block page__article-details page__block--no-bottom-padding">
-    <div class="holder">
-      <article class="article-details">
-        @if ($page->image)
-          <figure class="article-details__image">
-            {!! image()->load($page->image)->width(840)->height(535)->get() !!}
-          </figure>
-        @endif
+    <section class="page__block page__article-details">
+        <div class="holder holder--small">
+            @if (isset($page->banner) && $page->banner)
+                @php
+                    $content = new stdClass();
+                    $content->image = new stdClass();
+                    $content->image->id = $page->banner;
+                    $content->image->width = 1700;
+                    $content->image->height = 675;
+                @endphp
+                {!! view()->make('templates.content.banner')->with(compact('content')) !!}
+            @endif
+            <article class="article-details">
+                <header class="article-details__header">
+                    <h4 class="heading--title fade-in-up">{{ $page->published_at->format('jS M Y') }}</h4>
+                    <h1 class="heading fade-in-up">{{ $page->name }}</h1>
+                </header>
 
-        <header class="article-details__header">
-          <h2 class="article-details__date">{{ $page->published_at->format('d.m.y') }}</h2>
-          <h1 class="article-details__heading">{{ $page->name }}</h1>
-        </header>
+                <div class="article-details__content fade-in-up">
+                    {!! $page->content !!}
+                </div>
 
-        <div class="article-details__content">
-          {!! $page->content !!}
+                <footer>
+                    <a href="{{ $listingPage->meta->uri }}" class="button fade-in-up">Back to {{ $listingPage->name }}</a>
+                </footer>
+            </article>
         </div>
 
-      </article>
-
-    </div>
-  </div>
+    </section>
 @stop
 
 

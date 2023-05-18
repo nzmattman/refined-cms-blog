@@ -91,6 +91,7 @@ class Install extends Command
     {
         $this->output->writeln('<info>Copying Templates</info>');
         $this->copy('views/templates');
+        $this->copy('views/templates/content');
         $this->copy('sass/components');
     }
 
