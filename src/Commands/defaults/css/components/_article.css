@@ -1,9 +1,9 @@
 .article {
   flex: 0 0 32%;
   margin: 0 2% 20px 0;
-  border: 1px solid color(main-color-3);
+  border: 1px solid var(--main-color-3);
   background: none;
-  color: color(text);
+  color: var(--text-color);
 
   &:nth-child(3n+3) {
     margin-right: 0;
@@ -22,8 +22,8 @@
   }
 
   &__date, &__heading {
-    font-size: $systemFontSize;
-    line-height: $systemLineHeight;
+    font-size: var(--font-size);
+    line-height: var(--line-height);
     margin: 0 0 10px;
   }
 
@@ -77,12 +77,12 @@
 }
 
 .article-details {
-  border-bottom: 1px solid color(main-color-3);
-  padding: 0 0 pad(page);
+  border-bottom: 1px solid var(--main-color-3);
+  padding: 0 0 20px;
 
   &__date {
-    font-size: $systemFontSize;
-    line-height: $systemLineHeight;
+    font-size: var(--font-size);
+    line-height: var(--line-height);
     margin: 0;
   }
 
