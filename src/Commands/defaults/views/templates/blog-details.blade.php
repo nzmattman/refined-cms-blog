@@ -28,18 +28,10 @@
 
 @section('template')
 
+    @include('templates.includes.content')
+
     <section class="page__block page__article-details">
         <div class="holder holder--small">
-            @if (isset($page->banner) && $page->banner)
-                @php
-                    $content = new stdClass();
-                    $content->image = new stdClass();
-                    $content->image->id = $page->banner;
-                    $content->image->width = 1700;
-                    $content->image->height = 675;
-                @endphp
-                {!! view()->make('templates.content.banner')->with(compact('content')) !!}
-            @endif
             <article class="article-details">
                 <header class="article-details__header">
                     <h4 class="heading--title fade-in-up">{{ $page->published_at->format('jS M Y') }}</h4>
@@ -47,8 +39,9 @@
                 </header>
 
                 <div class="article-details__content fade-in-up">
-                    {!! $page->content !!}
+                    {!! $page->text !!}
                 </div>
+
 
                 <footer>
                     <a href="{{ $listingPage->meta->uri }}" class="button fade-in-up">Back to {{ $listingPage->name }}</a>

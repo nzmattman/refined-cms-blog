@@ -35,10 +35,6 @@ class BlogRequest extends FormRequest
             $args['image'] = ['required' => 'required'];
         }
 
-        if ($config['banner']['required'] && $config['banner']['show']) {
-            $args['banner'] = ['required' => 'required'];
-        }
-
         // return the results to set for validation
         return $args;
     }
@@ -51,6 +47,8 @@ class BlogRequest extends FormRequest
         if ($requiredImage) {
             $messages['image.required'] = 'The thumbnail field is required.';
         }
+
+        $messages['text.required'] = 'The content field is required.';
 
         return $messages;
     }

@@ -8,10 +8,15 @@ use RefinedDigital\CMS\Modules\Core\Models\CoreModel;
 use RefinedDigital\CMS\Modules\Core\Traits\IsArticle;
 use RefinedDigital\CMS\Modules\Pages\Traits\IsPage;
 use RefinedDigital\CMS\Modules\Tags\Traits\Taggable;
+use RefinedDigital\CMS\Modules\Pages\Traits\HasContentBlocks;
 
 class Blog extends CoreModel
 {
-    use SoftDeletes, IsPage, Taggable, IsArticle;
+    use SoftDeletes;
+    use IsPage;
+    use Taggable;
+    use IsArticle;
+    use HasContentBlocks;
 
     protected $order = ['column' => 'published_at', 'direction' => 'desc'];
 
@@ -24,6 +29,7 @@ class Blog extends CoreModel
         'name',
         'image',
         'banner',
+        'text',
         'content',
         'data',
         'external_link',
@@ -60,7 +66,7 @@ class Blog extends CoreModel
                                     [ 'label' => 'Date', 'name' => 'published_at','required' => true, 'type' => 'datetime' ],
                                 ],
                                 [
-                                    [ 'label' => 'Content', 'name' => 'content', 'required' => true, 'type' => 'richtext' ],
+                                    [ 'label' => 'Content', 'name' => 'text', 'required' => true, 'type' => 'richtext' ],
                                 ],
                             ]
                         ]
@@ -79,7 +85,16 @@ class Blog extends CoreModel
                     ]
                 ]
             ]
-        ]
+        ],
+
+        [
+            'name' => 'Content Blocks',
+            'fields' => [
+                [
+                    ['label' => 'Content', 'name' => 'content', 'type' => 'contentBlocks', 'hideLabel' => true],
+                ],
+            ],
+        ],
     ];
 
     protected $blockFeatured = [
@@ -138,10 +153,6 @@ class Blog extends CoreModel
                 ],
             ],
         ]
-    ];
-
-    protected $bannerImage = [
-        ['label' => 'Banner', 'name' => 'banner', 'required'  => true, 'hideLabel' => false, 'type' => 'image' ]
     ];
 
     protected $thumbnailImage = [
@@ -265,10 +276,6 @@ class Blog extends CoreModel
             'name'   => 'Images',
             'fields' => [ ]
         ];
-
-        if (isset($config['banner'], $config['banner']['show']) && $config['banner']['show']) {
-            $group['fields'][] = $this->setImageAttributes($this->bannerImage, $config['banner']);
-        }
 
         if (isset($config['thumbnail'], $config['thumbnail']['show']) && $config['thumbnail']['show']) {
             $group['fields'][] = $this->setImageAttributes($this->thumbnailImage, $config['thumbnail']);

@@ -5,13 +5,6 @@ return [
 
     'timezone' => 'UTC',
 
-    'banner' => [
-        'show' => true,
-        'required' => true,
-        'width' => 1920,
-        'height' => 960,
-    ],
-
     'thumbnail' => [
         'show' => true,
         'required' => true,

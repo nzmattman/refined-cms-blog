@@ -22,10 +22,10 @@ class CreateBlogsTable extends Migration
             $table->boolean('featured')->default(0);
             $table->string('name');
             $table->integer('image')->nullable();
-            $table->integer('banner')->nullable();
-            $table->longText('content')->nullable();
+            $table->longText('text')->nullable();
             $table->json('data')->nullable();
             $table->json('images')->nullable();
+            $table->json('content')->nullable();
             $table->string('external_link')->nullable();
             $table->integer('file')->nullable();
         });
