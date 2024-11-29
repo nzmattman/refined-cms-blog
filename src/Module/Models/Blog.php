@@ -263,6 +263,8 @@ class Blog extends CoreModel
     private function setImageAttributes($field, $config)
     {
         $field[0]['imageNote'] = 'Image here will be resized to <strong><em>FIT WITHIN</em> '.$config['width'].'px x '.$config['height'].'px</strong>';
+
+
         if ($config['required']) {
             $field[0]['required'] = $config['required'];
         }
@@ -278,7 +280,14 @@ class Blog extends CoreModel
         ];
 
         if (isset($config['thumbnail'], $config['thumbnail']['show']) && $config['thumbnail']['show']) {
-            $group['fields'][] = $this->setImageAttributes($this->thumbnailImage, $config['thumbnail']);
+            $fieldData = $this->setImageAttributes($this->thumbnailImage, $config['thumbnail']);
+
+            if ($config['featured'] && isset($config['thumbnail']['featured'])) {
+                $fieldData[0]['imageNote'] .= '<br/>For featured post: Image here will be resized to <strong><em>FIT WITHIN</em> '.$config['thumbnail']['featured']['width'].'px x '.$config['thumbnail']['featured']['height'].'px</strong>';
+            }
+
+            $group['fields'][] = $fieldData;
+
         }
 
         if (sizeof($group['fields'])) {
