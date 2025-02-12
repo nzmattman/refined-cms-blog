@@ -5,6 +5,8 @@ return [
 
     'timezone' => 'UTC',
 
+    'baseUrl' => 'blog',
+
     'thumbnail' => [
         'show' => true,
         'required' => true,
@@ -29,7 +31,6 @@ return [
      *   'label' => 'Link'
      * ]
      */
-
     'excerptLength' => 200,
     'excerptType' => 'character',
 
