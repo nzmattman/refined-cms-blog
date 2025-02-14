@@ -65,8 +65,8 @@ class BlogServiceProvider extends ServiceProvider
                 name: 'blog',
                 routes: __DIR__.'/../Http/routes.php',
                 menuConfig: $config,
-                sitemapModel: Blog::class,
-                sitemapBasePage: config('blog.baseUrl', 'blog')
+                model: Blog::class,
+                basePage: config('blog.baseUrl', 'blog')
             );
 
         app(PackageAggregate::class)
