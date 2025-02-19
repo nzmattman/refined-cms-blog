@@ -67,7 +67,7 @@ class BlogServiceProvider extends ServiceProvider
                 menuConfig: $config,
                 model: Blog::class,
                 basePage: config('blog.baseUrl', 'blog'),
-                false,
+                custom: false
             );
 
         app(PackageAggregate::class)
