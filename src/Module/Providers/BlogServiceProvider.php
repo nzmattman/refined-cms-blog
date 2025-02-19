@@ -66,7 +66,8 @@ class BlogServiceProvider extends ServiceProvider
                 routes: __DIR__.'/../Http/routes.php',
                 menuConfig: $config,
                 model: Blog::class,
-                basePage: config('blog.baseUrl', 'blog')
+                basePage: config('blog.baseUrl', 'blog'),
+                false,
             );
 
         app(PackageAggregate::class)
